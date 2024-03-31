@@ -15,3 +15,4 @@ three commands:
 
 David M. Jones
 dmjones@alum.mit.edu
+https://github.com/davidmjones/ltx-index/

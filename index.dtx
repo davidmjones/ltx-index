@@ -1,39 +1,13 @@
-% \iffalse
-% ====================================================================
-%  @LaTeX-style-file{
-%     filename        = "index.dtx",
-%     version         = "4.02beta",
-%     date            = "20 January 2004",
-%     time            = "21:15:11 EST",
-%     author          = "David M. Jones",
-%     address         = "MIT Laboratory for Computer Science
-%                        Room NE43-316
-%                        545 Technology Square
-%                        Cambridge, MA 02139
-%                        USA",
-%     telephone       = "(617) 253-5936",
-%     FAX             = "(617) 253-3480",
-%     checksum        = "39539 1398 6018 50774",
-%     email           = "dmjones@theory.lcs.mit.edu",
-%     codetable       = "ISO/ASCII",
-%     keywords        = "LaTeX, index",
-%     supported       = "yes",
-%     docstring       = "This is a reimplementation of LaTeX's
-%                        indexing macros to provide better support
-%                        for indexing in LaTeX.  For example, it
-%                        supports multiple indexes in a single
-%                        document and provides a more robust \index
-%                        command.
+% \def\filename{index.dtx}
+% \def\fileversion{4.02beta}
+% \def\filedate{2024/03/31}
+
+% \iffalse meta-comment
 %
-%                        The checksum field above contains a CRC-16
-%                        checksum as the first value, followed by
-%                        the equivalent of the standard UNIX wc
-%                        (word count) utility output of lines,
-%                        words, and characters.  This is produced
-%                        by Robert Solovay's checksum utility.",
+% David M. Jones
+% dmjones@alum.mit.edu
 %
-%  }
-% ====================================================================
+% Copyright 2024 David M. Jones
 %
 % This file may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.2
@@ -47,39 +21,17 @@
 %    rash if applied directly to skin.  Federal law prohibits distributing
 %    without a proscription.
 %
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is David M. Jones.
+%
 % \fi
 %
-%% \CheckSum{755}
-%% \CharacterTable
-%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-%%   Digits        \0\1\2\3\4\5\6\7\8\9
-%%   Exclamation   \!     Double quote  \"     Hash (number) \#
-%%   Dollar        \$     Percent       \%     Ampersand     \&
-%%   Acute accent  \'     Left paren    \(     Right paren   \)
-%%   Asterisk      \*     Plus          \+     Comma         \,
-%%   Minus         \-     Point         \.     Solidus       \/
-%%   Colon         \:     Semicolon     \;     Less than     \<
-%%   Equals        \=     Greater than  \>     Question mark \?
-%%   Commercial at \@     Left bracket  \[     Backslash     \\
-%%   Right bracket \]     Circumflex    \^     Underscore    \_
-%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
-%%   Right brace   \}     Tilde         \~}
-%
-%    \iffalse
-%    \begin{macrocode}
+% \iffalse
 %<*driver>
-\ProvidesFile{index.dtx}[1995/09/28 v4.1beta Improved index support (dmj)]
-%</driver>
-%    \end{macrocode}
-%
-%    \begin{macrocode}
-%<*driver>
+\NeedsTeXFormat{LaTeX2e}
 \documentclass{ltxdoc}
-\def\docdate {7 March 1994}
-%    \end{macrocode}
-%    We don't want everything to appear in the index
-%    \begin{macrocode}
+
 \DoNotIndex{\!,\/,\?,\@,\^,\_}
 \DoNotIndex{\@@par,\@M,\@auxout,\@bsphack,\@esphack,\@depth,\@ehc}
 \DoNotIndex{\@for,\@flushglue,\@gobble,\@gobbletwo,\@height,\@idxitem}
@@ -109,13 +61,8 @@
 \DoNotIndex{\tableofcontents,\the,\thepage,\thispagestyle,\toks,\tt}
 \DoNotIndex{\twocolumn,\uppercase,\vbox,\vrule,\vskip,\vss}
 \DoNotIndex{\write,\z@,\z@skip}
-%    \end{macrocode}
-%  Some useful macros and parameter settings:
-%    \begin{macrocode}
 
 \setcounter{StandardModuleDepth}{1}
-
-\GetFileInfo{index.dtx}
 
 \newcommand*{\email}[1]{$\langle$\texttt{#1}$\rangle$}
 \newcommand*{\vdate}[1]{$\langle$#1$\rangle$}
@@ -128,28 +75,24 @@
 \newcommand*{\pck}[1]{\texttt {#1}}
 \newcommand*{\file}[1]{\texttt {#1}}
 \CodelineIndex
-%    \end{macrocode}
-%    And the document itself:
-%    \begin{macrocode}
+
+\title{A new implementation of \LaTeX's indexing commands}
+
+\author{David M. Jones}
+
+\date{\filedate}
+
 \begin{document}
+
 \DocInput{index.dtx}
+
 \PrintIndex
+
 % ^^A\PrintChanges
+
 \end{document}
 %</driver>
-%    \end{macrocode}
-%
-%    \fi
-%
-%    \title{A new implementation of \LaTeX's indexing
-%        commands\thanks{This file has version number \fileversion,
-%        last revised \filedate, documentation dated \docdate.  The
-%        definitive version of this file is at
-%        \file{ftp://theory.lcs.mit.edu/pub/tex/index/}.}}
-%
-%    \author{David M. Jones}
-%
-%    \date{\filedate}
+% \fi
 %
 %    \maketitle
 %
@@ -1177,6 +1120,14 @@
 %    \end{macro}
 %    \end{macro}
 %
+%    \section{Finale}
+%
+%    The usual \cs{endinput} to ensure that random garbage at the end of
+%    the file doesn't get copied by \texttt{docstrip}.
+%    \begin{macrocode}
+\endinput
+%    \end{macrocode}
+%
 %    \section{Edit history}
 %
 %    \begin{description}
@@ -1290,7 +1241,6 @@
 %
 %    \item[??? (5 Jan 2004)]
 %
-%
 % \end{description}
 %
 % \DisableCrossrefs
@@ -1392,7 +1342,4 @@ first page of the index.]
 \end{document}
 %</sample>
 %    \end{macrocode}
-%
-% \Finale
-%
 \endinput
