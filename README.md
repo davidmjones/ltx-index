@@ -1,4 +1,7 @@
-HOW TO INSTALL THIS FILE:
+# latex-index
+index – Extended index for LaTeX including multiple indexes
+
+## How to install this file:
 
 Run tex on index.ins to unpack the files index.sty and sample.tex.
 Then install index.sty wherever style files belong on your system and
@@ -11,4 +14,4 @@ three commands:
    latex index.dtx
 
 David M. Jones
-dmjones@theory.lcs.mit.edu
+dmjones@alum.mit.edu

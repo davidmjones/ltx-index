@@ -1,3 +1,7 @@
+## Custom ignores for the ltx-index package:
+
+build
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
