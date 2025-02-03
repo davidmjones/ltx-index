@@ -1,5 +1,5 @@
 # latex-index
-index – Extended index for LaTeX including multiple indexes
+index – Extended index support for LaTeX including multiple indexes
 
 ## How to install this file:
 
@@ -12,6 +12,9 @@ three commands:
    latex index.dtx
    makeindex -s gind.ist index
    latex index.dtx
+   
+Or if you're feeling brave, you can try to running build.sh to create
+a TDS-compliant (I think) tree in the build directory.
 
 David M. Jones
 dmjones@alum.mit.edu

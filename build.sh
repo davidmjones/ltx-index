@@ -16,17 +16,22 @@ for option in "$@"; do
     esac
 done
 
+if (($BUILD_ZIP)); then
+    if ((! $BUILD_DOCS)); then
+        echo "Forcing build of documentation for zip file"
+        BUILD_DOCS=1
+    fi
+else
+    echo "Not building ZIP files"
+fi
+
 if ((! $BUILD_DOCS)); then
     echo "Not building documentation"
 fi
 
-if ((! $BUILD_ZIP)); then
-    echo "Not building ZIP files"
-fi
-
 PACKAGES="index"
 
-DOC_TXT="README.md"
+DOC_TXT="README.md sample/sample.tex"
 
 BUILD=$PWD/build
 
@@ -58,24 +63,26 @@ fi
 if (($BUILD_DOCS)); then
     for doc in $DOC_TXT
     do
-        cp -p $doc $TEXMF_SRC
+        cp -p $doc $TEXMF_DOC
     done
 fi
 
 # Create init file for testing
 
-cat > $SET_NAME-ini.csh <<EOF
-setenv tex_$SET_NAME $TEXMF_CLS//
+cat > $BUILD/$SET_NAME-ini.sh <<EOF
+tex_$SET_NAME=$TEXMF_CLS//
 
 echo Setting '\$tex_$SET_NAME' to \$tex_$SET_NAME
 
 echo 'Adding \$tex_$SET_NAME to TEXINPUTS for tex and latex'
 
-if (\$?TEXINPUTS) then
-    setenv TEXINPUTS .:\${tex_$SET_NAME}:\${TEXINPUTS}:
+if [ -z "$TEXINPUTS" ]; then
+    TEXINPUTS=.:\${tex_$SET_NAME}:\${TEXINPUTS}:
 else
-    setenv TEXINPUTS .:\${tex_$SET_NAME}:
-endif
+    TEXINPUTS=.:\${tex_$SET_NAME}:
+fi
+
+export TEXINPUTS
 
 echo "For prdlatex, type"
 echo '    prdlatex -inputs \$tex_$SET_NAME ...'
@@ -116,9 +123,9 @@ do
 
         pdflatex $pkg.dtx
 
-        cp -p $pkg.pdf $TEXMF_DOC
+        mv $pkg.pdf $TEXMF_DOC
 
-        rm $pkg.{aux,idx,ilg,ind,log,toc,out} || true
+        rm $pkg.{aux,idx,ilg,ind,log,toc,out,hd} || true
     fi
 done
 
@@ -127,17 +134,31 @@ rm docstrip.cfg
 cd ..
 
 if (($BUILD_ZIP)); then 
-    cd $TEXMF_SRC
+    cd $BUILD
 
-    ls -R * > $TEXMF_SRC/manifest.txt
+    mkdir zip_staging
+
+    cd zip_staging
+
+    cp -pr $TEXMF_SRC .
+
+    for f in $TEXMF_DOC/*; do 
+        cp $f $SET_NAME
+    done
+
+    cd $SET_NAME
+
+    ls -R * > manifest.txt
 
     cd ..
 
-    zip -r $BUILD/$SET_NAME.zip $SET_NAME
+    zip -r ../$SET_NAME.zip $SET_NAME
 
     cd $BUILD
 
     md5sum $SET_NAME.zip > $SET_NAME.zip.md5
+
+    rm -rf zip_staging
 fi
 
 exit 0

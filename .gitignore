@@ -1,7 +1,7 @@
 ## Custom ignores for the ltx-index package:
 
 build
-index-ini.csh
+index-ini.sh
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
