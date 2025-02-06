@@ -1,6 +1,6 @@
 % \def\filename{index.dtx}
-% \def\fileversion{4.03}
-% \def\filedate{2025/02/03}
+% \def\fileversion{4.04}
+% \def\filedate{2025/02/06}
 
 % \iffalse meta-comment
 %
@@ -351,8 +351,8 @@
 %    In order to implement this style file, it's been necessary to
 %    modify a number of \LaTeX\ commands seemingly unrelated to
 %    indexing, namely, \cs{@starttoc}, \cs{raggedbottom},
-%    \cs{flushbottom}, \cs{addcontents}, \cs{markboth}, and
-%    \cs{markright}.  Naturally, this could cause incompatibilities
+%    \cs{flushbottom}, and \cs{addcontents}.  Naturally, this could
+%    cause incompatibilities
 %    between \bundle{index.sty} and any style files that either
 %    redefine these same commands or make specific assumptions about
 %    how they operate.  See Section~\ref{sec:thecode} for explanations
@@ -406,7 +406,7 @@
 %<*style>
 \NeedsTeXFormat{LaTeX2e}[2024/11/01]
 
-\ProvidesPackage{index}[2025/02/03 v4.03 Improved index support (dmj)]
+\ProvidesPackage{index}[2025/02/06 v4.04 Improved index support (dmj)]
 %    \end{macrocode}
 %
 %    \begin{macro}{\disableindex}
@@ -637,7 +637,7 @@
 %    redefine some of \LaTeX's commands for dealing with tables of
 %    contents and page headings.  (See below.) $*$sigh$*$
 %    \begin{macrocode}
-\def\index{\protect\p@index}
+\protected\def\index{\protect\p@index}
 
 \def\p@index{%
     \if@silentindex\@bsphack\fi
@@ -1075,102 +1075,6 @@
     \endgroup
 }
 %    \end{macrocode}
-%    \end{macro}
-%
-%    \begin{macro}{\markboth}
-%    \begin{macro}{\markright}
-%    Finally, we have to redefine \cs{markboth} and \cs{markright} to
-%    keep them from disabling the expansion of \cs{index} while
-%    putting section heads into the \cs{mark}.  Otherwise, we'd end up
-%    with ``\cs{index}'' in the mark, which would cause problems when
-%    \cs{@outputpage} redefines \cs{index} to be equal to
-%    \cs{@gobble}.  Instead, we want \cs{index} to expand to
-%    \cs{p@index} in the \cs{mark}, so we retain control over what
-%    happens in \cs{@outputpage}.
-%
-%    This time, the only change is to remove \cs{index} from the list
-%    of macros that are \cs{let} equal to \cs{relax}.
-%
-%    \cs{markboth} and \cs{markright} are now defined using
-%    \cs{DeclareRobustCommand}, which means that before we can use
-%    \cs{CheckCommand}, we have to break open \cs{markboth} and
-%    \cs{markright} to get to the chewy inner centers, \verb*+\markboth +
-%    and \verb*+\markright +.
-%    \begin{macrocode}
-\begingroup
-
-\def\@tempa#1{%
-    \begingroup
-        \edef\@tempa{%
-            \let \expandafter\noexpand\csname#1\endcsname
-                  \expandafter\noexpand\csname#1 \endcsname
-        }%
-        \expandafter
-    \endgroup
-    \@tempa
-}
-
-\@tempa{markboth}
-\@tempa{markright}
-
-\ExplSyntaxOn
-
-\CheckCommand*\markboth[2]{%
-  \begingroup
-    \let\label\relax \let\index\relax \let\glossary\relax
-    \unrestored@protected@xdef\@themark {{#1}{#2}}%
-    \@temptokena \expandafter{\@themark}%
-    \mark_insert:nn{2e-left}{#1}
-    \mark_insert:nn{2e-right}{#2}
-    \tl_if_empty:nF{#2}{ \mark_insert:nn{2e-right-nonempty}{#2} }
-    \mark{\the\@temptokena}%
-  \endgroup
-  \if@nobreak\ifvmode\nobreak\fi\fi}
-
-\CheckCommand*\markright[1]{%
-  \begingroup
-    \let\label\relax \let\index\relax \let\glossary\relax
-    \expandafter\@markright\@themark {#1}%
-    \@temptokena \expandafter{\@themark}%
-    \mark_insert:nn{2e-right}{#1}
-    \tl_if_empty:nF{#1}{ \mark_insert:nn{2e-right-nonempty}{#1} }
-    \mark{\the\@temptokena}%
-  \endgroup
-  \if@nobreak\ifvmode\nobreak\fi\fi}
-
-\ExplSyntaxOff
-
-\endgroup
-
-\ExplSyntaxOn
-
-\DeclareRobustCommand*\markboth[2]{%
-  \begingroup
-    \let\label\relax \let\glossary\relax
-    \unrestored@protected@xdef\@themark {{#1}{#2}}%
-    \@temptokena \expandafter{\@themark}%
-    \mark_insert:nn{2e-left}{#1}
-    \mark_insert:nn{2e-right}{#2}
-    \tl_if_empty:nF{#2}{ \mark_insert:nn{2e-right-nonempty}{#2} }
-    \mark{\the\@temptokena}%
-  \endgroup
-  \if@nobreak\ifvmode\nobreak\fi\fi}
-
-\DeclareRobustCommand*\markright[1]{%
-  \begingroup
-    \let\label\relax \let\glossary\relax
-    \expandafter\@markright\@themark {#1}%
-    \@temptokena \expandafter{\@themark}%
-    \mark_insert:nn{2e-right}{#1}
-    \tl_if_empty:nF{#1}{ \mark_insert:nn{2e-right-nonempty}{#1} }
-    \mark{\the\@temptokena}%
-  \endgroup
-  \if@nobreak\ifvmode\nobreak\fi\fi}
-
-\ExplSyntaxOff
-%</style>
-%    \end{macrocode}
-%    \end{macro}
 %    \end{macro}
 %
 %    \section{Finale}
